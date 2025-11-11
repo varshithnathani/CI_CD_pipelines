@@ -1,0 +1,45 @@
+For Each pipeline::
+
+1. start Docker Container
+2. clone git repo
+3. Execute Commands
+4. Publish job artifacts
+5. stop docker container
+
+stages:
+  - build
+
+build_website:
+  image: node:22-alpine
+  stage: build
+  script:
+    - node --version
+    - npm --version
+    - npm ci # npm ci is exactly like npm install, it's faster than npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+
+
+stages:
+  - build
+  - test
+
+build_website:
+  image: node:22-alpine
+  stage: build
+  script:
+    - node --version
+    - npm --version
+    - npm ci # npm ci is exactly like npm install, it's faster than npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+
+testing_website:
+  image: node:22-alpine
+  stage: test
+  script:
+    - test -f build/index.html
